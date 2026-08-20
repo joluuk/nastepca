@@ -65,7 +65,6 @@
         <PhotoSimpleCard imgSrc="/koleksi/IMG-20240507-WA0086.jpg" height="h-[240px]" />
         <PhotoSimpleCard imgSrc="/koleksi/IMG_9570.JPG" height="h-[220px]" />
         <PhotoSimpleCard imgSrc="/koleksi/20240505124615_IMG_8469.JPG" height="flex-1" />
-        <PhotoSimpleCard imgSrc="/koleksi/IMG_7626 (1).JPG" height="flex-1" />
       </div>
 
       {/* ================= JALUR TENGAH ================= */}
