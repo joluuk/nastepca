@@ -1,20 +1,56 @@
+"use client";
+
 import Link from "next/link";
+import { useState, useEffect } from "react"; 
+import { Footer } from "../../components/Footer";
 import { SubNavbar } from "../../components/SubNavbar";
+import { PhotoSimpleCard } from "../../components/PhotoSimpleCard"; 
 
 export default function NgajiBulananPage() {
-  return (
-    <main className="min-h-screen bg-white text-slate-900">
-      
-      {/* 1. NAVBAR - Minimalis ala Unsplash */}
-     <SubNavbar />
+  
+  // 1. STATE UNTUK LIGHTBOX
+  const [lightbox, setLightbox] = useState({ isOpen: false, imgSrc: "" });
 
-      {/* 2. HERO SECTION - Banner khusus Ngaji Bulanan */}
+  const openLightbox = (imgSrc) => {
+    setLightbox({ isOpen: true, imgSrc });
+  };
+
+  const closeLightbox = () => {
+    setLightbox({ isOpen: false, imgSrc: "" });
+  };
+
+  // 2. EFEK ANIMASI MUNCUL
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove("opacity-0", "translate-y-16");
+            entry.target.classList.add("opacity-100", "translate-y-0");
+            observer.unobserve(entry.target); 
+          }
+        });
+      },
+      { threshold: 0.1 } 
+    );
+
+    const hiddenElements = document.querySelectorAll(".reveal-element");
+    hiddenElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <main className="min-h-screen bg-white text-slate-900 relative">
+      
+      {/* NAVBAR */}
+      <SubNavbar />
+
+      {/* HERO SECTION */}
       <section className="relative w-full h-[40vh] md:h-[50vh] flex flex-col justify-center items-center px-6">
-        {/* Latar Belakang Gambar & Overlay Gelap */}
         <div className="absolute inset-0 bg-[url('/koleksi/IMG_9807.JPG')] bg-cover bg-center"></div>
-        <div className="absolute inset-0 bg-black/60"></div> {/* Efek Gelap */}
+        <div className="absolute inset-0 bg-black/60"></div> 
         
-        {/* Konten Hero */}
         <div className="relative z-10 w-full max-w-3xl text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Ngaji Bulanan
@@ -24,85 +60,55 @@ export default function NgajiBulananPage() {
           </p>
         </div>
       </section>
-{/* 3. MASONRY DENGAN ATAS ACAK & BAWAH RATA SEJAJAR */}
+
+      {/* MASONRY GRID */}
       <section id="koleksi" className="py-12 px-4 md:px-10 max-w-[1600px] mx-auto">
-        
-        {/* Grid 3 Kolom */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
           {/* ================= JALUR KIRI ================= */}
-          <div className="flex flex-col gap-6 h-[750px]">
-            
-            {/* Foto Atas (Tinggi 280px) */}
-            <div className="h-[280px] overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_9736.JPG" 
-                alt="Random 1" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
-            {/* Foto Bawah (flex-1 otomatis menyesuaikan sisa ruang agar bawahnya rata) */}
-            <div className="flex-1 overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_9756.JPG" 
-                alt="Random 2" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
+          <div className="flex flex-col gap-6 h-auto md:h-[800px]">
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_9736.JPG" height="h-[280px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_0210.jpg" height="h-[280px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_9756.JPG" height="h-[250px] md:h-auto md:flex-1" />
           </div>
-
 
           {/* ================= JALUR TENGAH ================= */}
-          <div className="flex flex-col gap-6 h-[750px]">
-            
-            {/* Foto Atas (Tinggi 420px - lebih panjang biar atasnya acak) */}
-            <div className="h-[420px] overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_9765.JPG" 
-                alt="Random 3" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
-            {/* Foto Bawah (flex-1 otomatis meratakan bagian bawah) */}
-            <div className="flex-1 overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_9772.JPG" 
-                alt="Random 4" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
+          <div className="flex flex-col gap-6 h-auto md:h-[830px]">
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_9765.JPG" height="h-[420px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_0422.jpg" height="h-[420px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_9772.JPG" height="h-[250px] md:h-auto md:flex-1" />
           </div>
 
-
           {/* ================= JALUR KANAN ================= */}
-          <div className="flex flex-col gap-6 h-[750px]">
-            
-            {/* Foto Atas (Tinggi 220px - lebih pendek) */}
-            <div className="h-[220px] overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_9780.JPG" 
-                alt="Random 5" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
-            {/* Foto Bawah (flex-1 otomatis meratakan bagian bawah) */}
-            <div className="flex-1 overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_9741.JPG" 
-                alt="Random 6" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
+          <div className="flex flex-col gap-6 h-auto md:h-[800px]">
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_9780.JPG" height="h-[220px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_9741.JPG" height="h-[250px] md:h-auto md:flex-1" />
           </div>
 
         </div>
       </section>
+
+      {/* POP-UP LIGHTBOX */}
+      {lightbox.isOpen && (
+        <div 
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-200 cursor-zoom-out"
+          onClick={closeLightbox} 
+        >
+          <div className="relative max-w-5xl w-full flex flex-col items-center">
+            <button 
+              className="absolute -top-12 right-0 text-white hover:text-rose-500 transition-colors bg-black/50 p-2 rounded-full cursor-pointer"
+              onClick={closeLightbox}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <img 
+              src={lightbox.imgSrc} 
+              alt="Galeri Fullscreen" 
+              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" 
+            />
+          </div>
+        </div>
+      )}  
 
       {/* TOMBOL INSTAGRAM */}
       <a href="https://www.instagram.com/nastepca.24" target="_blank" rel="noopener noreferrer" className="fixed bottom-8 right-8 z-50 bg-white p-3 rounded-full shadow-lg hover:scale-110 hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
@@ -111,6 +117,8 @@ export default function NgajiBulananPage() {
         </svg>
       </a>
 
+      {/* FOOTER */}
+      <Footer />
     </main>
   );
 }

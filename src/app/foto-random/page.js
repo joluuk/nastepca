@@ -1,22 +1,58 @@
+"use client";
+
 import Link from "next/link";
-import {Navbar} from "../../components/Navbar";
-import {Footer} from "../../components/Footer";
+import { useState, useEffect } from "react"; 
+import { Footer } from "../../components/Footer";
 import { SubNavbar } from "../../components/SubNavbar";
+import { PhotoSimpleCard } from "../../components/PhotoSimpleCard"; 
 
 export default function FotoRandomPage() {
+  
+  const [lightbox, setLightbox] = useState({ isOpen: false, imgSrc: "" });
+
+  const openLightbox = (imgSrc) => {
+    setLightbox({ isOpen: true, imgSrc });
+  };
+
+  const closeLightbox = () => {
+    setLightbox({ isOpen: false, imgSrc: "" });
+  };
+
+  // ==========================================
+  // INI YANG BIKIN FOTONYA MUNCUL (ANIMASI)
+  // ==========================================
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove("opacity-0", "translate-y-16");
+            entry.target.classList.add("opacity-100", "translate-y-0");
+            observer.unobserve(entry.target); 
+          }
+        });
+      },
+      { threshold: 0.1 } 
+    );
+
+    const hiddenElements = document.querySelectorAll(".reveal-element");
+    hiddenElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+  // ==========================================
+
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-white text-slate-900 relative">
       
-      {/* 1. NAVBAR - Minimalis ala Unsplash */}
+      {/* 1. NAVBAR - Minimalis */}
       <SubNavbar />
 
-      {/* 2. HERO SECTION - Banner khusus Ngaji Bulanan */}
+      {/* 2. HERO SECTION */}
       <section className="relative w-full h-[40vh] md:h-[50vh] flex flex-col justify-center items-center px-6">
-        {/* Latar Belakang Gambar & Overlay Gelap */}
         <div className="absolute inset-0 bg-[url('/koleksi/IMG-20240505-WA0045.jpg')] bg-cover bg-[center_30%]"></div>
-        <div className="absolute inset-0 bg-black/60"></div> {/* Efek Gelap */}
+        <div className="absolute inset-0 bg-black/60"></div> 
         
-        {/* Konten Hero */}
         <div className="relative z-10 w-full max-w-3xl text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Foto-Foto Random
@@ -27,87 +63,69 @@ export default function FotoRandomPage() {
         </div>
       </section>
 
-      {/* 3. MASONRY DENGAN ATAS ACAK & BAWAH RATA SEJAJAR */}
+      {/* 3. MASONRY */}
       <section id="koleksi" className="py-12 px-4 md:px-10 max-w-[1600px] mx-auto">
-        
-        {/* Grid 3 Kolom */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
           {/* ================= JALUR KIRI ================= */}
-          <div className="flex flex-col gap-6 h-[750px]">
-            
-            {/* Foto Atas (Tinggi 280px) */}
-            <div className="h-[280px] overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG-20240505-WA0045.jpg" 
-                alt="Random 1" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
-            {/* Foto Bawah (flex-1 otomatis menyesuaikan sisa ruang agar bawahnya rata) */}
-            <div className="flex-1 overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG-20240507-WA0739.jpg" 
-                alt="Random 2" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
+          {/* Wadah ditinggikan jadi 1300px agar muat 4 foto */}
+          <div className="flex flex-col gap-6 h-auto md:h-[1300px]">
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_8452.JPG" height="h-[280px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240507-WA0508.jpg" height="h-[300px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240505-WA0066.jpg" height="h-[250px]" /> 
+            {/* HANYA FOTO PALING BAWAH YANG PAKAI FLEX-1 */}
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_7540.jpg" height="h-[250px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_8410.jpg" height="h-[250px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240507-WA0739.jpg" height="h-[250px] md:h-auto md:flex-1" /> 
+             
+            {/* HANYA FOTO PALING BAWAH YANG PAKAI FLEX-1 */}
           </div>
-
-
+          
           {/* ================= JALUR TENGAH ================= */}
-          <div className="flex flex-col gap-6 h-[750px]">
-            
-            {/* Foto Atas (Tinggi 420px - lebih panjang biar atasnya acak) */}
-            <div className="h-[420px] overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_7648 (1).JPG" 
-                alt="Random 3" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
-            {/* Foto Bawah (flex-1 otomatis meratakan bagian bawah) */}
-            <div className="flex-1 overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_7667.JPG" 
-                alt="Random 4" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
+          <div className="flex flex-col gap-6 h-auto md:h-[1300px]">
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_7648 (1).JPG" height="h-[420px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_7667.JPG" height="h-[250px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240507-WA0166.jpg" height="h-[320px]" />
+            {/* HANYA FOTO PALING BAWAH YANG PAKAI FLEX-1 */}
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_7508.jpg" height="h-[320px]" /> 
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_5729 (1).jpg" height="h-[320px]" /> 
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240420-WA0191.jpg" height="h-[250px] md:h-auto md:flex-1" /> 
           </div>
-
 
           {/* ================= JALUR KANAN ================= */}
-          <div className="flex flex-col gap-6 h-[750px]">
-            
-            {/* Foto Atas (Tinggi 220px - lebih pendek) */}
-            <div className="h-[220px] overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_9496.JPG" 
-                alt="Random 5" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
-            {/* Foto Bawah (flex-1 otomatis meratakan bagian bawah) */}
-            <div className="flex-1 overflow-hidden rounded-md shadow-sm group">
-              <img 
-                src="/koleksi/IMG_7653.JPG" 
-                alt="Random 6" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-              />
-            </div>
-
+          <div className="flex flex-col gap-6 h-auto md:h-[1300px]">
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_9496.JPG" height="h-[220px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_7653.JPG" height="h-[400px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_5438.jpg" height="h-[400px]" />
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240505-WA0066.jpg" height="h-[400px]" />
+            {/* HANYA FOTO PALING BAWAH YANG PAKAI FLEX-1 */}
+            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240507-WA0137.jpg" height="h-[250px] md:h-auto md:flex-1" />
           </div>
 
         </div>
       </section>
 
-        
+      {/* 4. POP-UP LIGHTBOX */}
+      {lightbox.isOpen && (
+        <div 
+          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-200 cursor-zoom-out"
+          onClick={closeLightbox} 
+        >
+          <div className="relative max-w-5xl w-full flex flex-col items-center">
+            <button 
+              className="absolute -top-12 right-0 text-white hover:text-rose-500 transition-colors bg-black/50 p-2 rounded-full cursor-pointer"
+              onClick={closeLightbox}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <img 
+              src={lightbox.imgSrc} 
+              alt="Galeri Fullscreen" 
+              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" 
+            />
+          </div>
+        </div>
+      )}
 
       {/* TOMBOL INSTAGRAM */}
       <a href="https://www.instagram.com/nastepca.24" target="_blank" rel="noopener noreferrer" className="fixed bottom-8 right-8 z-50 bg-white p-3 rounded-full shadow-lg hover:scale-110 hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
@@ -116,6 +134,8 @@ export default function FotoRandomPage() {
         </svg>
       </a>
 
+      {/* FOOTER */}
+      <Footer />
     </main>
   );
 }

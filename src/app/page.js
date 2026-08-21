@@ -74,7 +74,7 @@ export default function Home() {
         {/* GRID MASONRY UTAMA */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           
-          <div className="flex flex-col gap-6 h-auto md:h-[1200px]">
+          <div className="flex flex-col gap-6 h-auto md:h-[1500px]">
             <div className="hidden md:block w-full h-[280px]">
               <PhotoLinkCard href="/foto-random" imgSrc="/koleksi/IMG-20240505-WA0045.jpg" title="Foto Random" height="h-full" />
             </div>
@@ -83,10 +83,9 @@ export default function Home() {
             <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240507-WA0086.jpg" height="h-[240px]" />
             <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_9570.JPG" height="h-[220px]" />
             <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/20240505124615_IMG_8469.JPG" height="h-[250px] md:h-auto md:flex-1" />
-            <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_7626 (1).JPG" height="h-[250px] md:h-auto md:flex-1" />
           </div>
 
-          <div className="flex flex-col gap-6 h-auto md:h-[1200px]">
+          <div className="flex flex-col gap-6 h-auto md:h-[1500px]">
             <div className="hidden md:block w-full h-[420px]">
               <PhotoLinkCard href="/ngaji-bulanan" imgSrc="/koleksi/IMG_9807.JPG" title="Ngaji Bulanan" height="h-full" />
             </div>
@@ -96,7 +95,7 @@ export default function Home() {
             <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240508-WA0138.jpg" height="h-[250px] md:h-auto md:flex-1" />
           </div>
 
-          <div className="flex flex-col gap-6 h-auto md:h-[1200px]">
+          <div className="flex flex-col gap-6 h-auto md:h-[1500px]">
             <div className="hidden md:block w-full h-[240px]">
               <PhotoLinkCard href="/proyek-akhir" imgSrc="/koleksi/Screenshot 2026-08-12 092650.png" title="Proyek Akhir" height="h-full" />
             </div>
