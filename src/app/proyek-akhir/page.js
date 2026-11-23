@@ -1,45 +1,172 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { SubNavbar } from "../../components/SubNavbar";
+import { Footer } from "../../components/Footer";
 
-export default function NgajiBulananPage() {
+const YOUTUBE_URL = "https://www.youtube.com/watch?v=OpiMCCLxRPc";
+
+export default function ProyekAkhirPage() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(YOUTUBE_URL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
+
   return (
-    <main className="min-h-screen bg-white text-slate-900">
+    <main className="min-h-screen bg-white text-slate-900 relative">
       
       {/* 1. NAVBAR */}
-     <SubNavbar />
+      <SubNavbar />
 
-      {/* 2. HERO SECTION */}
-      <section className="relative w-full min-h-[240px] h-[36vh] sm:h-[42vh] md:h-[50vh] flex flex-col justify-center items-center px-4 sm:px-6">
-        <Image src="/koleksi/IMG_9807.JPG" alt="" fill priority sizes="100vw" className="object-cover object-center" />
-        <div className="absolute inset-0 bg-black/60"></div> 
+      {/* 2. HERO SECTION SINEMATIK (#1) */}
+      <section className="relative w-full min-h-[280px] h-[40vh] sm:h-[46vh] md:h-[54vh] flex flex-col justify-center items-center px-4 sm:px-6 overflow-hidden">
+        <Image
+          src="/koleksi/Screenshot 2026-08-12 092650.png"
+          alt="Panggung Nihai Show 2024"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center scale-[1.02]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/55 to-black/80"></div>
         
         <div className="relative z-10 w-full max-w-3xl text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 md:mb-4">
-            Nihai Show
+          <span className="inline-block text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-yellow-300 bg-white/10 backdrop-blur-sm border border-white/15 px-3.5 py-1 rounded-full mb-3 sm:mb-4">
+            Pagelaran Seni &amp; Budaya &bull; TA 2023/2024
+          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-3 md:mb-4">
+            Nihai Show 2024
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-200 font-medium max-w-xl mx-auto">
-            Rekaman proyek akhir kami, dari awal sampai hasil jadi.
+          <p className="text-sm sm:text-base md:text-lg text-gray-200 font-medium max-w-xl mx-auto leading-relaxed">
+            Puncak persembahan dan panggung kreasi santri akhir Ma&apos;had Al-Hidayah Basmol.
           </p>
         </div>
       </section>
 
-      {/* 3. KONTEN UTAMA - Wadah Video */}
-      <div className="max-w-3xl mx-auto px-3 py-6 sm:p-6 md:p-10">
-        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md border border-gray-100">
-          <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-3 sm:mb-4">Video Dokumentasi</h3>
+      {/* 3. PLAYER VIDEO THEATER MODE (#2) */}
+      <section className="max-w-4xl mx-auto px-3 sm:px-6 md:px-10 pt-8 sm:pt-12 pb-6">
+        <div className="bg-slate-950 rounded-2xl shadow-xl border border-slate-800 overflow-hidden">
           
-          <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-inner bg-black">
+          {/* Header Bar Player */}
+          <div className="flex flex-wrap items-center justify-between gap-2 px-4 sm:px-6 py-3.5 border-b border-slate-800/80">
+            <div className="flex items-center gap-2 text-xs font-medium text-slate-300">
+              <span className="w-2 h-2 rounded-full bg-rose-500"></span>
+              <span>Arsip Siaran Langsung</span>
+            </div>
+            <span className="text-xs text-slate-400">
+              Ma&apos;had Al-Hidayah Basmol
+            </span>
+          </div>
+
+          {/* Video 16:9 */}
+          <div className="relative w-full aspect-video bg-black">
             <iframe 
               className="absolute top-0 left-0 w-full h-full"
               src="https://www.youtube.com/embed/OpiMCCLxRPc" 
-              title="Demo Proyek Akhir" 
+              title="LIVE Nihai Show TA 2023/2024 | Ma'had Al Hidayah Basmol" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
               allowFullScreen
             ></iframe>
           </div>
+
+          {/* Info & Tombol Aksi */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-4 sm:px-6 py-4 bg-slate-900/70">
+            <div>
+              <h3 className="text-sm sm:text-base font-bold text-white">
+                LIVE Nihai Show TA 2023/2024
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Dokumentasi penuh &bull; Kualitas HD &bull; Nastepca &apos;24
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 text-xs font-medium text-slate-200 bg-white/10 hover:bg-white/15 active:scale-95 border border-white/10 px-3.5 py-2 rounded-lg transition-all cursor-pointer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  {copied ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  )}
+                </svg>
+                <span>{copied ? "Tersalin!" : "Salin Link"}</span>
+              </button>
+
+              <a
+                href={YOUTUBE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-slate-950 bg-white hover:bg-slate-200 active:scale-95 px-3.5 py-2 rounded-lg transition-all"
+              >
+                <span>Tonton di YouTube</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+
         </div>
-      </div>
+      </section>
+
+      {/* 4. NAVIGASI LINTAS KOLEKSI (#5) */}
+      <section className="max-w-4xl mx-auto px-3 sm:px-6 md:px-10 pt-8 pb-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
+            Lihat Koleksi Lainnya
+          </h3>
+          <Link href="/" className="text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">
+            Semua di Beranda &rarr;
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Link
+            href="/foto-random"
+            className="group relative block h-[170px] sm:h-[190px] rounded-xl overflow-hidden bg-gray-200"
+          >
+            <Image
+              src="/koleksi/IMG-20240505-WA0045.jpg"
+              alt="Foto Random"
+              fill
+              sizes="(max-width: 640px) 100vw, 50vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent flex flex-col justify-end p-5">
+              <h4 className="text-lg font-bold text-white">Foto Random</h4>
+              <p className="text-xs text-gray-200 mt-0.5">Kumpulan momen santai &amp; kebersamaan &rarr;</p>
+            </div>
+          </Link>
+
+          <Link
+            href="/ngaji-bulanan"
+            className="group relative block h-[170px] sm:h-[190px] rounded-xl overflow-hidden bg-gray-200"
+          >
+            <Image
+              src="/koleksi/IMG_9807.JPG"
+              alt="Ngaji Bulanan"
+              fill
+              sizes="(max-width: 640px) 100vw, 50vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent flex flex-col justify-end p-5">
+              <h4 className="text-lg font-bold text-white">Ngaji Bulanan</h4>
+              <p className="text-xs text-gray-200 mt-0.5">Dokumentasi kajian rutin bulanan &rarr;</p>
+            </div>
+          </Link>
+        </div>
+      </section>
 
       {/* TOMBOL INSTAGRAM */}
       <a href="https://www.instagram.com/nastepca.24" target="_blank" rel="noopener noreferrer" aria-label="Instagram Nastepca" className="fixed bottom-5 right-5 md:bottom-8 md:right-8 z-50 bg-white p-3 rounded-full shadow-lg hover:scale-110 active:scale-95 hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
@@ -48,8 +175,8 @@ export default function NgajiBulananPage() {
         </svg>
       </a>
 
+      {/* FOOTER */}
+      <Footer />
     </main>
-
-    
   );
 }
