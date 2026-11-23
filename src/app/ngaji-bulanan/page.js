@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react"; 
 import { Footer } from "../../components/Footer";
 import { SubNavbar } from "../../components/SubNavbar";
@@ -48,7 +49,7 @@ export default function NgajiBulananPage() {
 
       {/* HERO SECTION */}
       <section className="relative w-full h-[40vh] md:h-[50vh] flex flex-col justify-center items-center px-6">
-        <div className="absolute inset-0 bg-[url('/koleksi/IMG_9807.JPG')] bg-cover bg-center"></div>
+        <Image src="/koleksi/IMG_9807.JPG" alt="" fill priority sizes="100vw" className="object-cover object-center" />
         <div className="absolute inset-0 bg-black/60"></div> 
         
         <div className="relative z-10 w-full max-w-3xl text-center">
@@ -101,10 +102,13 @@ export default function NgajiBulananPage() {
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
-            <img 
+            <Image 
               src={lightbox.imgSrc} 
               alt="Galeri Fullscreen" 
-              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" 
+              width={1600}
+              height={1200}
+              sizes="90vw"
+              className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-lg shadow-2xl" 
             />
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
@@ -76,7 +77,7 @@ export default function Home() {
           
           <div className="flex flex-col gap-6 h-auto md:h-[1500px]">
             <div className="hidden md:block w-full h-[280px]">
-              <PhotoLinkCard href="/foto-random" imgSrc="/koleksi/IMG-20240505-WA0045.jpg" title="Foto Random" height="h-full" />
+              <PhotoLinkCard href="/foto-random" imgSrc="/koleksi/IMG-20240505-WA0045.jpg" title="Foto Random" height="h-full" priority />
             </div>
             
             <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG-20240507-WA0739.jpg" height="h-[200px]" />
@@ -87,7 +88,7 @@ export default function Home() {
 
           <div className="flex flex-col gap-6 h-auto md:h-[1500px]">
             <div className="hidden md:block w-full h-[420px]">
-              <PhotoLinkCard href="/ngaji-bulanan" imgSrc="/koleksi/IMG_9807.JPG" title="Ngaji Bulanan" height="h-full" />
+              <PhotoLinkCard href="/ngaji-bulanan" imgSrc="/koleksi/IMG_9807.JPG" title="Ngaji Bulanan" height="h-full" priority />
             </div>
 
             <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_7648 (1).JPG" height="h-[250px]" />
@@ -97,7 +98,7 @@ export default function Home() {
 
           <div className="flex flex-col gap-6 h-auto md:h-[1500px]">
             <div className="hidden md:block w-full h-[240px]">
-              <PhotoLinkCard href="/proyek-akhir" imgSrc="/koleksi/Screenshot 2026-08-12 092650.png" title="Proyek Akhir" height="h-full" />
+              <PhotoLinkCard href="/proyek-akhir" imgSrc="/koleksi/Screenshot 2026-08-12 092650.png" title="Proyek Akhir" height="h-full" priority />
             </div>
 
             <PhotoSimpleCard onClick={openLightbox} imgSrc="/koleksi/IMG_9496.JPG" height="h-[350px]" />
@@ -125,10 +126,13 @@ export default function Home() {
             </button>
 
             {/* Foto Utama Saja */}
-            <img 
+            <Image 
               src={lightbox.imgSrc} 
               alt="Galeri Fullscreen" 
-              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" 
+              width={1600}
+              height={1200}
+              sizes="90vw"
+              className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-lg shadow-2xl" 
             />
             
           </div>

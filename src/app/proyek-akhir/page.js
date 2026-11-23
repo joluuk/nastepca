@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SubNavbar } from "../../components/SubNavbar";
 
 export default function NgajiBulananPage() {
@@ -10,7 +11,7 @@ export default function NgajiBulananPage() {
 
       {/* 2. HERO SECTION */}
       <section className="relative w-full h-[40vh] md:h-[50vh] flex flex-col justify-center items-center px-6">
-        <div className="absolute inset-0 bg-[url('/koleksi/IMG_9807.JPG')] bg-cover bg-center"></div>
+        <Image src="/koleksi/IMG_9807.JPG" alt="" fill priority sizes="100vw" className="object-cover object-center" />
         <div className="absolute inset-0 bg-black/60"></div> 
         
         <div className="relative z-10 w-full max-w-3xl text-center">
