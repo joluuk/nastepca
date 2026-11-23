@@ -12,11 +12,11 @@ export function SubNavbar() {
       </h1>
       
       {/* TOMBOL KEMBALI (Sekarang tampil di HP dan PC) */}
-      <div className="flex font-medium text-slate-500 text-xs md:text-sm">
-        <Link href="/" className="hover:text-slate-900 transition-colors flex items-center gap-1 md:gap-2 bg-slate-50 md:bg-transparent px-3 py-1.5 md:px-0 md:py-0 rounded-full border border-slate-200 md:border-none">
+      <div className="flex font-medium text-slate-600 text-xs sm:text-sm">
+        <Link href="/" className="hover:text-slate-900 active:scale-95 transition-all flex items-center gap-1.5 md:gap-2 bg-slate-100 hover:bg-slate-200 md:bg-transparent md:hover:bg-transparent px-3.5 py-2 md:px-0 md:py-0 rounded-full border border-slate-200 md:border-none">
           <span>&larr;</span> 
           <span className="hidden md:inline">Kembali ke Beranda</span>
-          <span className="md:hidden"></span>
+          <span className="md:hidden">Kembali</span>
         </Link>
       </div>
 

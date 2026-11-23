@@ -11,6 +11,12 @@ export const metadata = {
   description: "Website Galeri Foto",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#ffffff",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="id" className={jakarta.className}>
