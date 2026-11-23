@@ -2,44 +2,34 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react"; 
+import { useState } from "react";
 import { Footer } from "../../components/Footer";
 import { SubNavbar } from "../../components/SubNavbar";
 import { PhotoSimpleCard } from "../../components/PhotoSimpleCard"; 
 
+import { Lightbox } from "../../components/Lightbox";
+import { useReveal } from "../../components/useReveal";
+const IMAGES = [
+  "/koleksi/IMG_9736.JPG",
+  "/koleksi/IMG_0210.jpg",
+  "/koleksi/IMG_9756.JPG",
+  "/koleksi/IMG_9765.JPG",
+  "/koleksi/IMG_0422.jpg",
+  "/koleksi/IMG_9772.JPG",
+  "/koleksi/IMG_9780.JPG",
+  "/koleksi/IMG_9741.JPG",
+];
+
 export default function NgajiBulananPage() {
   
   // 1. STATE UNTUK LIGHTBOX
-  const [lightbox, setLightbox] = useState({ isOpen: false, imgSrc: "" });
+  const [lbIndex, setLbIndex] = useState(null);
 
-  const openLightbox = (imgSrc) => {
-    setLightbox({ isOpen: true, imgSrc });
-  };
+  const openLightbox = (imgSrc) => setLbIndex(Math.max(0, IMAGES.indexOf(imgSrc)));
+  const closeLightbox = () => setLbIndex(null);
 
-  const closeLightbox = () => {
-    setLightbox({ isOpen: false, imgSrc: "" });
-  };
+  useReveal();
 
-  // 2. EFEK ANIMASI MUNCUL
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.remove("opacity-0", "translate-y-16");
-            entry.target.classList.add("opacity-100", "translate-y-0");
-            observer.unobserve(entry.target); 
-          }
-        });
-      },
-      { threshold: 0.1 } 
-    );
-
-    const hiddenElements = document.querySelectorAll(".reveal-element");
-    hiddenElements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <main className="min-h-screen bg-white text-slate-900 relative">
@@ -89,31 +79,7 @@ export default function NgajiBulananPage() {
         </div>
       </section>
 
-      {/* POP-UP LIGHTBOX */}
-      {lightbox.isOpen && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-3 sm:p-6 md:p-10 cursor-zoom-out"
-          onClick={closeLightbox} 
-        >
-          <button 
-            aria-label="Tutup foto"
-            className="fixed top-4 right-4 z-10 text-white hover:text-rose-400 transition-colors bg-white/15 hover:bg-white/25 backdrop-blur-sm p-2.5 rounded-full cursor-pointer"
-            onClick={closeLightbox}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-          </button>
-          <div className="relative max-w-5xl w-full flex flex-col items-center">
-            <Image 
-              src={lightbox.imgSrc} 
-              alt="Galeri Fullscreen" 
-              width={1600}
-              height={1200}
-              sizes="95vw"
-              className="max-w-full max-h-[82vh] w-auto h-auto object-contain rounded-lg shadow-2xl" 
-            />
-          </div>
-        </div>
-      )}  
+      <Lightbox images={IMAGES} index={lbIndex} onClose={closeLightbox} onChange={setLbIndex} />
 
       {/* TOMBOL INSTAGRAM */}
       <a href="https://www.instagram.com/nastepca.24" target="_blank" rel="noopener noreferrer" aria-label="Instagram Nastepca" className="fixed bottom-5 right-5 md:bottom-8 md:right-8 z-50 bg-white p-3 rounded-full shadow-lg hover:scale-110 active:scale-95 hover:shadow-2xl transition-all duration-300 border border-gray-200 group">

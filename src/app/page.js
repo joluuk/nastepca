@@ -2,16 +2,31 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { PhotoLinkCard } from "../components/PhotoLinkCard";
 import { PhotoSimpleCard } from "../components/PhotoSimpleCard";
 
+import { Lightbox } from "../components/Lightbox";
+import { useReveal } from "../components/useReveal";
+const IMAGES = [
+  "/koleksi/IMG-20240507-WA0739.jpg",
+  "/koleksi/IMG-20240507-WA0086.jpg",
+  "/koleksi/IMG_9570.JPG",
+  "/koleksi/20240505124615_IMG_8469.JPG",
+  "/koleksi/IMG_7648 (1).JPG",
+  "/koleksi/IMG-20240402-WA0027.jpg",
+  "/koleksi/IMG-20240508-WA0138.jpg",
+  "/koleksi/IMG_9496.JPG",
+  "/koleksi/IMG_7670 (1).JPG",
+  "/koleksi/IMG-20240507-WA0123.jpg",
+];
+
 export default function Home() {
   
   // 1. STATE UNTUK LIGHTBOX (Hanya menyimpan info gambar saja)
-  const [lightbox, setLightbox] = useState({ isOpen: false, imgSrc: "" });
+  const [lbIndex, setLbIndex] = useState(null);
 
   // 2. STATE UNTUK GIMMICK SEARCH BOX
   const [searchText, setSearchText] = useState("");
@@ -57,41 +72,12 @@ export default function Home() {
     setSearchAttempts((prev) => prev + 1);
   };
 
-  const openLightbox = (imgSrc) => {
-    setLightbox({ isOpen: true, imgSrc });
-  };
+  const openLightbox = (imgSrc) => setLbIndex(Math.max(0, IMAGES.indexOf(imgSrc)));
+  const closeLightbox = () => setLbIndex(null);
 
-  const closeLightbox = () => {
-    setLightbox({ isOpen: false, imgSrc: "" });
-  };
+  useReveal();
 
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") closeLightbox();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
   
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.remove("opacity-0", "translate-y-16");
-            entry.target.classList.add("opacity-100", "translate-y-0");
-            observer.unobserve(entry.target); 
-          }
-        });
-      },
-      { threshold: 0.1 } 
-    );
-
-    const hiddenElements = document.querySelectorAll(".reveal-element");
-    hiddenElements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <main className="min-h-screen bg-white text-slate-900 relative">
@@ -99,7 +85,7 @@ export default function Home() {
       <Navbar />
 
       <section className="relative w-full min-h-[380px] h-[55vh] sm:h-[60vh] md:h-[70vh] flex flex-col justify-center items-center px-4 sm:px-6 py-10">
-        <div className="absolute inset-0 bg-[url('/koleksi/foto1.jpg')] bg-cover bg-center"></div>
+        <Image src="/koleksi/IMG_9807.JPG" alt="" fill priority sizes="100vw" className="object-cover object-center" />
         <div className="absolute inset-0 bg-black/50"></div>
         
         <div className="relative z-10 w-full max-w-3xl text-center md:text-left reveal-element opacity-0 translate-y-16 transition-all duration-1000 ease-out">
@@ -199,34 +185,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* POP-UP LIGHTBOX (Ramah layar Android & desktop) */}
-      {lightbox.isOpen && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-3 sm:p-6 md:p-10 cursor-zoom-out"
-          onClick={closeLightbox} 
-        >
-          {/* Tombol Tutup (X) selalu terjangkau di layar HP */}
-          <button 
-            aria-label="Tutup foto"
-            className="fixed top-4 right-4 z-10 text-white hover:text-rose-400 transition-colors bg-white/15 hover:bg-white/25 backdrop-blur-sm p-2.5 rounded-full cursor-pointer"
-            onClick={closeLightbox}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-          </button>
-
-          <div className="relative max-w-5xl w-full flex flex-col items-center">
-            {/* Foto Utama Saja */}
-            <Image 
-              src={lightbox.imgSrc} 
-              alt="Galeri Fullscreen" 
-              width={1600}
-              height={1200}
-              sizes="95vw"
-              className="max-w-full max-h-[82vh] w-auto h-auto object-contain rounded-lg shadow-2xl" 
-            />
-          </div>
-        </div>
-      )}
+      <Lightbox images={IMAGES} index={lbIndex} onClose={closeLightbox} onChange={setLbIndex} />
 
       {/* TOMBOL INSTAGRAM */}
       <a href="https://www.instagram.com/nastepca.24" target="_blank" rel="noopener noreferrer" aria-label="Instagram Nastepca" className="fixed bottom-5 right-5 md:bottom-8 md:right-8 z-50 bg-white p-3 rounded-full shadow-lg hover:scale-110 active:scale-95 hover:shadow-2xl transition-all duration-300 border border-gray-200 group">
