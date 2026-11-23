@@ -21,13 +21,13 @@ export const metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#ffffff",
+  themeColor: "#212124",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="id" className={jakarta.className}>
-      <body className="bg-white text-slate-900 antialiased">
+      <body className="bg-[#f3f5f6] text-[#212124] antialiased">
         {children}
       </body>
     </html>

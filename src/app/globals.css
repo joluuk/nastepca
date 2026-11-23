@@ -7,8 +7,14 @@ html {
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  --background: #f3f5f6;
+  --foreground: #212124;
+  --flickr-dark: #212124;
+  --flickr-blue: #0063dc;
+  --flickr-blue-hover: #0052b8;
+  --flickr-pink: #ff0084;
+  --flickr-border: #e5e5e5;
+  --flickr-muted: #767676;
 }
 
 @theme inline {
@@ -35,4 +41,13 @@ body {
 
 .animate-shake {
   animation: shake 0.35s ease-in-out;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
