@@ -14,7 +14,7 @@ export function FlickrSubNav({ countLabel }) {
   const pathname = usePathname();
 
   return (
-    <div className="sticky top-[54px] z-40 w-full bg-white border-b border-[#e5e5e5]">
+    <div className="sticky top-14 z-40 w-full bg-white border-b border-[#e5e5e5]">
       <div className="max-w-[1600px] mx-auto px-3 sm:px-6 md:px-10 flex items-center justify-between gap-4">
         <nav
           aria-label="Navigasi koleksi"

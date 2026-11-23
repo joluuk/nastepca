@@ -11,6 +11,7 @@ export function PhotoSimpleCard({
   caption,
   onClick,
   priority = false,
+  fillColumn = false,
 }) {
   const [faved, setFaved] = useState(false);
   const label = title || caption || "Foto Nastepca '24";
@@ -18,7 +19,9 @@ export function PhotoSimpleCard({
   return (
     <figure
       onClick={() => onClick && onClick(imgSrc, label)}
-      className="reveal-element opacity-0 translate-y-16 transition-all duration-500 ease-out break-inside-avoid mb-2.5 sm:mb-3 relative rounded-[2px] overflow-hidden group cursor-zoom-in bg-[#dfe3e6] shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
+      className={`reveal-element opacity-0 translate-y-16 transition-all duration-500 ease-out relative rounded-[2px] overflow-hidden group cursor-zoom-in bg-[#dfe3e6] shadow-[0_1px_2px_rgba(0,0,0,0.06)] ${
+        fillColumn ? "md:flex-1 md:flex md:flex-col" : ""
+      }`}
     >
       <Image
         src={imgSrc}
@@ -26,11 +29,13 @@ export function PhotoSimpleCard({
         width={width}
         height={height}
         priority={priority}
-        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        className="w-full h-auto block transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+        sizes="(max-width: 768px) 100vw, 33vw"
+        className={`w-full block transition-transform duration-500 ease-out group-hover:scale-[1.02] ${
+          fillColumn ? "h-auto md:h-full md:flex-1 object-cover" : "h-auto"
+        }`}
       />
 
-      {/* FLICKR HOVER SCRIM & METADATA */}
+      {/* HOVER SCRIM & METADATA */}
       <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 pt-14 pb-2.5 px-3 bg-gradient-to-t from-black/80 via-black/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end justify-between gap-2">
         <div className="min-w-0">
           <p className="text-[13px] font-semibold text-white truncate leading-snug">
@@ -50,7 +55,7 @@ export function PhotoSimpleCard({
           }}
           className={`pointer-events-auto p-1.5 rounded-full transition-colors cursor-pointer shrink-0 ${
             faved
-              ? "text-[#ff0084] bg-white/15"
+              ? "text-amber-400 bg-white/15"
               : "text-white/85 hover:text-white hover:bg-white/15"
           }`}
         >

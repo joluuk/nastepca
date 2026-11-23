@@ -17,7 +17,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // State gimmick search bar ala Flickr
+  // State gimmick search bar
   const [searchText, setSearchText] = useState("");
   const [searchGimmick, setSearchGimmick] = useState("");
   const [searchAttempts, setSearchAttempts] = useState(0);
@@ -49,7 +49,7 @@ export function Navbar() {
     } else if (val.trim().length === 1 && !searchGimmick) {
       setSearchGimmick("Eh beneran diketik... ini gak fungsi loh dawg 😭");
     } else if (val.trim().length >= 5 && searchAttempts === 0) {
-      setSearchGimmick(`Nyari "${val.trim()}"? Percuma bro, cuma hiasan biar kayak Flickr 💀`);
+      setSearchGimmick(`Nyari "${val.trim()}"? Percuma bro, ini cuma hiasan 💀`);
     }
   };
 
@@ -66,7 +66,7 @@ export function Navbar() {
   };
 
   const navLinks = [
-    { href: "/", label: "Explore" },
+    { href: "/", label: "Beranda" },
     { href: "/foto-random", label: "Foto Random" },
     { href: "/ngaji-bulanan", label: "Ngaji Bulanan" },
     { href: "/proyek-akhir", label: "Nihai Show" },
@@ -74,27 +74,38 @@ export function Navbar() {
 
   return (
     <>
-      {/* FLICKR DARK GLOBAL HEADER */}
+      {/* GLOBAL DARK HEADER */}
       <header className="sticky top-0 z-50 w-full bg-[#212124]/95 backdrop-blur-md text-white border-b border-white/10">
-        <div className="flex justify-between items-center h-[54px] px-4 sm:px-6 md:px-10 max-w-[1600px] mx-auto gap-4">
-          {/* KIRI: LOGO FLICKR-STYLE + MENU */}
-          <div className="flex items-center gap-6 lg:gap-8 min-w-0">
+        <div className="flex items-center justify-between h-14 px-4 sm:px-6 md:px-10 max-w-[1600px] mx-auto gap-6">
+          {/* KIRI: LOGO SEDERHANA GALERIA + MENU */}
+          <div className="flex items-center gap-8 lg:gap-10 min-w-0">
             <Link
               href="/"
-              className="flex items-center gap-2 shrink-0 group focus:outline-none"
+              className="flex items-center gap-2 shrink-0 text-white hover:opacity-90 transition-opacity focus:outline-none"
               aria-label="Galeria Beranda"
             >
-              <span className="flex items-center gap-[3px]" aria-hidden="true">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#0063dc] group-hover:scale-110 transition-transform" />
-                <span className="w-2.5 h-2.5 rounded-full bg-[#ff0084] group-hover:scale-110 transition-transform" />
-              </span>
-              <span className="text-[20px] font-bold tracking-tight text-white lowercase leading-none">
-                galeria
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                <circle cx="12" cy="13" r="3" />
+              </svg>
+              <span className="text-[19px] font-bold tracking-tight leading-none">
+                Galeria
               </span>
             </Link>
 
             {/* MENU DESKTOP */}
-            <nav className="hidden md:flex items-center gap-5 text-[14px] font-medium text-white/75">
+            <nav className="hidden md:flex items-center gap-6 lg:gap-7 text-[14px] font-medium text-white/75">
               {navLinks.map((item) => {
                 const active = pathname === item.href;
                 return (
@@ -119,13 +130,13 @@ export function Navbar() {
             </nav>
           </div>
 
-          {/* KANAN: FLICKR SEARCH BAR + TOMBOL IG / HAMBURGER */}
-          <div className="flex items-center gap-3 flex-1 md:flex-initial justify-end max-w-sm">
-            <div className="relative hidden sm:block w-full md:w-64 lg:w-80">
+          {/* KANAN: SEARCH BAR + TOMBOL IG / HAMBURGER */}
+          <div className="flex items-center gap-3.5 shrink-0">
+            <div className="relative hidden sm:block w-52 md:w-60 lg:w-72">
               <form
                 onSubmit={handleSearchSubmit}
-                className={`flex items-center bg-white/85 focus-within:bg-white rounded-[3px] px-2.5 h-[33px] transition-all ${
-                  isShaking ? "animate-shake ring-2 ring-[#ff0084]" : ""
+                className={`flex items-center bg-white/90 focus-within:bg-white rounded-[3px] px-2.5 h-[34px] transition-all ${
+                  isShaking ? "animate-shake ring-2 ring-[#0063dc]" : ""
                 }`}
               >
                 <svg
@@ -145,7 +156,7 @@ export function Navbar() {
                   type="text"
                   value={searchText}
                   onChange={handleSearchChange}
-                  placeholder="Foto, momen, atau kenangan..."
+                  placeholder="Cari foto atau momen..."
                   className="w-full text-[13px] text-[#212124] placeholder-[#666] bg-transparent outline-none"
                 />
                 {searchText && (
@@ -165,7 +176,7 @@ export function Navbar() {
 
               {/* POPOVER GIMMICK SEARCH */}
               {searchGimmick && (
-                <div className="absolute right-0 top-[40px] w-72 sm:w-80 bg-[#212124] border border-white/15 text-white/95 text-xs px-3.5 py-2.5 rounded-[4px] shadow-2xl z-50 flex items-start justify-between gap-2">
+                <div className="absolute right-0 top-[42px] w-72 sm:w-80 bg-[#212124] border border-white/15 text-white/95 text-xs px-3.5 py-2.5 rounded-[4px] shadow-2xl z-50 flex items-start justify-between gap-2">
                   <span className="leading-relaxed">{searchGimmick}</span>
                   <button
                     type="button"
@@ -183,7 +194,7 @@ export function Navbar() {
               href="https://www.instagram.com/nastepca.24"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:inline-flex items-center gap-1.5 bg-[#0063dc] hover:bg-[#0052b8] text-white text-[13px] font-semibold px-3.5 h-[33px] rounded-[3px] transition-colors shrink-0"
+              className="hidden lg:inline-flex items-center gap-1.5 bg-[#0063dc] hover:bg-[#0052b8] text-white text-[13px] font-semibold px-3.5 h-[34px] rounded-[3px] transition-colors shrink-0"
             >
               @nastepca.24
             </a>
@@ -217,11 +228,10 @@ export function Navbar() {
         {/* DROPDOWN MENU HP */}
         {isMobileMenuOpen && (
           <div className="md:hidden bg-[#1a1a1d] border-t border-white/10 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-white/85 shadow-xl">
-            {/* Search bar mobile */}
             <form
               onSubmit={handleSearchSubmit}
               className={`sm:hidden flex items-center bg-white/90 focus-within:bg-white rounded-[3px] px-2.5 h-[36px] mb-2 ${
-                isShaking ? "animate-shake ring-2 ring-[#ff0084]" : ""
+                isShaking ? "animate-shake ring-2 ring-[#0063dc]" : ""
               }`}
             >
               <svg className="w-4 h-4 text-[#555] shrink-0 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -231,7 +241,7 @@ export function Navbar() {
                 type="text"
                 value={searchText}
                 onChange={handleSearchChange}
-                placeholder="Foto, momen, atau kenangan..."
+                placeholder="Cari foto atau momen..."
                 className="w-full text-[13px] text-[#212124] placeholder-[#666] bg-transparent outline-none"
               />
             </form>
@@ -270,7 +280,7 @@ export function Navbar() {
         )}
       </header>
 
-      {/* POP-UP MODAL TENTANG (GAYA FLICKR) */}
+      {/* POP-UP MODAL TENTANG */}
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 9999 }}>
           <div
@@ -279,7 +289,7 @@ export function Navbar() {
           />
 
           <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-white rounded-[4px] shadow-2xl border border-[#e5e5e5] overflow-hidden">
-            {/* Header Gelap Flickr */}
+            {/* Header Gelap */}
             <div className="relative bg-[#212124] text-white px-6 pt-6 pb-5">
               <button
                 type="button"
@@ -293,9 +303,11 @@ export function Navbar() {
               </button>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-[4px] bg-white/10 border border-white/15 flex items-center justify-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#0063dc]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff0084]" />
+                <div className="w-10 h-10 rounded-[4px] bg-white/10 border border-white/15 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                    <circle cx="12" cy="13" r="3" />
+                  </svg>
                 </div>
                 <div>
                   <h3 className="text-lg font-bold tracking-tight">Tentang Galeria</h3>
@@ -306,8 +318,8 @@ export function Navbar() {
               </div>
             </div>
 
-            {/* Garis Aksen Flickr Blue -> Pink */}
-            <div className="h-[3px] w-full bg-gradient-to-r from-[#0063dc] to-[#ff0084]" />
+            {/* Garis Aksen Tipis */}
+            <div className="h-[3px] w-full bg-[#0063dc]" />
 
             {/* Isi Konten */}
             <div className="p-6 text-left">

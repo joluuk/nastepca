@@ -139,7 +139,7 @@ export default function ProyekAkhirPage() {
           </Link>
         </div>
 
-        <div className="columns-1 sm:columns-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <PhotoLinkCard
             href={ALBUMS[0].href}
             imgSrc={ALBUMS[0].imgSrc}

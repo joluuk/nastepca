@@ -4,11 +4,11 @@ export function Footer() {
   return (
     <footer className="w-full bg-[#212124] text-white/75 border-t border-white/10 mt-16">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-10 py-6">
-        {/* Baris atas: Navigasi ala Flickr */}
+        {/* Baris atas: Navigasi */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-white/10 text-[13px]">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link href="/" className="hover:text-white transition-colors">
-              Explore
+              Beranda
             </Link>
             <Link href="/foto-random" className="hover:text-white transition-colors">
               Foto Random
@@ -30,11 +30,23 @@ export function Footer() {
           </div>
 
           <div className="flex items-center gap-2 text-xs text-white/60">
-            <span className="inline-flex items-center gap-1" aria-hidden="true">
-              <span className="w-2 h-2 rounded-full bg-[#0063dc]" />
-              <span className="w-2 h-2 rounded-full bg-[#ff0084]" />
-            </span>
-            <span className="font-semibold text-white/90 lowercase">galeria</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-white/80"
+              aria-hidden="true"
+            >
+              <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+              <circle cx="12" cy="13" r="3" />
+            </svg>
+            <span className="font-semibold text-white/90">Galeria</span>
             <span>&bull; Nastepca &apos;24</span>
           </div>
         </div>

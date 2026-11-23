@@ -10,6 +10,13 @@ import { Lightbox } from "../../components/Lightbox";
 import { useReveal } from "../../components/useReveal";
 import { NGAJI_BULANAN_PHOTOS } from "../../data/photos";
 
+// Distribusi 3 kolom yang seimbang tinggi alaminya agar garis bawah rata
+const NGAJI_COLUMNS = [
+  [NGAJI_BULANAN_PHOTOS[0], NGAJI_BULANAN_PHOTOS[2], NGAJI_BULANAN_PHOTOS[3]],
+  [NGAJI_BULANAN_PHOTOS[1], NGAJI_BULANAN_PHOTOS[4]],
+  [NGAJI_BULANAN_PHOTOS[5], NGAJI_BULANAN_PHOTOS[6], NGAJI_BULANAN_PHOTOS[7]],
+];
+
 export default function NgajiBulananPage() {
   const [lbIndex, setLbIndex] = useState(null);
 
@@ -25,7 +32,7 @@ export default function NgajiBulananPage() {
     <main className="min-h-screen bg-[#f3f5f6] text-[#212124] relative">
       <SubNavbar />
 
-      {/* FLICKR ALBUM COVER HEADER */}
+      {/* ALBUM COVER HEADER */}
       <section className="relative w-full min-h-[220px] h-[32vh] sm:h-[38vh] md:h-[44vh] flex flex-col justify-end px-4 sm:px-6 md:px-10 pb-7 overflow-hidden bg-[#212124]">
         <Image
           src="/koleksi/IMG_9807.JPG"
@@ -58,19 +65,24 @@ export default function NgajiBulananPage() {
 
       <FlickrSubNav countLabel={`${NGAJI_BULANAN_PHOTOS.length} foto`} />
 
-      {/* ADAPTIVE MASONRY GRID */}
+      {/* MASONRY 3 KOLOM ADAPTIF DENGAN GARIS BAWAH RATA */}
       <section id="koleksi" className="py-5 sm:py-7 px-3 sm:px-6 md:px-10 max-w-[1600px] mx-auto">
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-2.5 sm:gap-3">
-          {NGAJI_BULANAN_PHOTOS.map((photo, idx) => (
-            <PhotoSimpleCard
-              key={photo.src}
-              imgSrc={photo.src}
-              width={photo.width}
-              height={photo.height}
-              title={photo.title}
-              onClick={openLightbox}
-              priority={idx < 3}
-            />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
+          {NGAJI_COLUMNS.map((col, colIdx) => (
+            <div key={colIdx} className="flex flex-col gap-3">
+              {col.map((photo, itemIdx) => (
+                <PhotoSimpleCard
+                  key={photo.src}
+                  imgSrc={photo.src}
+                  width={photo.width}
+                  height={photo.height}
+                  title={photo.title}
+                  onClick={openLightbox}
+                  priority={itemIdx === 0}
+                  fillColumn={itemIdx === col.length - 1}
+                />
+              ))}
+            </div>
           ))}
         </div>
       </section>

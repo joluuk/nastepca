@@ -10,6 +10,32 @@ import { Lightbox } from "../../components/Lightbox";
 import { useReveal } from "../../components/useReveal";
 import { FOTO_RANDOM_PHOTOS } from "../../data/photos";
 
+// Distribusi 3 kolom yang seimbang tinggi alaminya agar garis bawah rata
+const RANDOM_COLUMNS = [
+  [
+    FOTO_RANDOM_PHOTOS[0],
+    FOTO_RANDOM_PHOTOS[1],
+    FOTO_RANDOM_PHOTOS[3],
+    FOTO_RANDOM_PHOTOS[4],
+    FOTO_RANDOM_PHOTOS[9],
+    FOTO_RANDOM_PHOTOS[6],
+  ],
+  [
+    FOTO_RANDOM_PHOTOS[7],
+    FOTO_RANDOM_PHOTOS[13],
+    FOTO_RANDOM_PHOTOS[8],
+    FOTO_RANDOM_PHOTOS[2],
+    FOTO_RANDOM_PHOTOS[10],
+  ],
+  [
+    FOTO_RANDOM_PHOTOS[5],
+    FOTO_RANDOM_PHOTOS[11],
+    FOTO_RANDOM_PHOTOS[14],
+    FOTO_RANDOM_PHOTOS[12],
+    FOTO_RANDOM_PHOTOS[15],
+  ],
+];
+
 export default function FotoRandomPage() {
   const [lbIndex, setLbIndex] = useState(null);
 
@@ -25,7 +51,7 @@ export default function FotoRandomPage() {
     <main className="min-h-screen bg-[#f3f5f6] text-[#212124] relative">
       <SubNavbar />
 
-      {/* FLICKR ALBUM COVER HEADER */}
+      {/* ALBUM COVER HEADER */}
       <section className="relative w-full min-h-[220px] h-[32vh] sm:h-[38vh] md:h-[44vh] flex flex-col justify-end px-4 sm:px-6 md:px-10 pb-7 overflow-hidden bg-[#212124]">
         <Image
           src="/koleksi/IMG-20240505-WA0045.jpg"
@@ -58,19 +84,24 @@ export default function FotoRandomPage() {
 
       <FlickrSubNav countLabel={`${FOTO_RANDOM_PHOTOS.length} foto`} />
 
-      {/* ADAPTIVE MASONRY GRID */}
+      {/* MASONRY 3 KOLOM ADAPTIF DENGAN GARIS BAWAH RATA */}
       <section id="koleksi" className="py-5 sm:py-7 px-3 sm:px-6 md:px-10 max-w-[1600px] mx-auto">
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-2.5 sm:gap-3">
-          {FOTO_RANDOM_PHOTOS.map((photo, idx) => (
-            <PhotoSimpleCard
-              key={photo.src}
-              imgSrc={photo.src}
-              width={photo.width}
-              height={photo.height}
-              title={photo.title}
-              onClick={openLightbox}
-              priority={idx < 3}
-            />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
+          {RANDOM_COLUMNS.map((col, colIdx) => (
+            <div key={colIdx} className="flex flex-col gap-3">
+              {col.map((photo, itemIdx) => (
+                <PhotoSimpleCard
+                  key={photo.src}
+                  imgSrc={photo.src}
+                  width={photo.width}
+                  height={photo.height}
+                  title={photo.title}
+                  onClick={openLightbox}
+                  priority={itemIdx === 0}
+                  fillColumn={itemIdx === col.length - 1}
+                />
+              ))}
+            </div>
           ))}
         </div>
       </section>

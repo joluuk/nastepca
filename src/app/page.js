@@ -11,21 +11,11 @@ import { Lightbox } from "../components/Lightbox";
 import { useReveal } from "../components/useReveal";
 import { ALBUMS, HOME_PHOTOS } from "../data/photos";
 
-// Susunan organik: menyelingi kartu album dengan foto photostream agar seimbang di 3 kolom masonry
-const FEED_ITEMS = [
-  { type: "album", data: ALBUMS[0] },
-  { type: "photo", data: HOME_PHOTOS[0] },
-  { type: "photo", data: HOME_PHOTOS[1] },
-  { type: "photo", data: HOME_PHOTOS[2] },
-  { type: "photo", data: HOME_PHOTOS[3] },
-  { type: "album", data: ALBUMS[1] },
-  { type: "photo", data: HOME_PHOTOS[4] },
-  { type: "photo", data: HOME_PHOTOS[5] },
-  { type: "photo", data: HOME_PHOTOS[6] },
-  { type: "album", data: ALBUMS[2] },
-  { type: "photo", data: HOME_PHOTOS[7] },
-  { type: "photo", data: HOME_PHOTOS[8] },
-  { type: "photo", data: HOME_PHOTOS[9] },
+// Distribusi 3 kolom yang seimbang tinggi alaminya (campuran portrait & landscape)
+const HOME_COLUMNS = [
+  [HOME_PHOTOS[0], HOME_PHOTOS[2], HOME_PHOTOS[3], HOME_PHOTOS[9]],
+  [HOME_PHOTOS[4], HOME_PHOTOS[1], HOME_PHOTOS[7]],
+  [HOME_PHOTOS[6], HOME_PHOTOS[5], HOME_PHOTOS[8]],
 ];
 
 export default function Home() {
@@ -43,7 +33,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#f3f5f6] text-[#212124] relative">
       <Navbar />
 
-      {/* FLICKR EXPLORE / COVER HERO */}
+      {/* COVER HERO */}
       <section className="relative w-full min-h-[340px] h-[48vh] sm:h-[54vh] md:h-[60vh] flex flex-col justify-center items-center px-4 sm:px-6 overflow-hidden bg-[#212124]">
         <Image
           src="/koleksi/IMG_9807.JPG"
@@ -73,43 +63,50 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Atribusi foto ala Flickr di pojok bawah */}
         <div className="absolute bottom-3 right-4 sm:right-8 z-10 text-[11px] sm:text-xs text-white/70">
           Foto sampul oleh <span className="text-white font-medium">Nastepca &apos;24</span>
         </div>
       </section>
 
-      {/* FLICKR SUB-NAV TAB BAR */}
+      {/* SUB-NAV TAB BAR */}
       <FlickrSubNav countLabel={`${HOME_PHOTOS.length} foto • ${ALBUMS.length} album`} />
 
-      {/* ADAPTIVE MASONRY GRID (ACAK & MENYESUAIKAN GAMBAR) */}
-      <section id="koleksi" className="py-5 sm:py-7 px-3 sm:px-6 md:px-10 max-w-[1600px] mx-auto">
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-2.5 sm:gap-3">
-          {FEED_ITEMS.map((item, idx) =>
-            item.type === "album" ? (
-              <PhotoLinkCard
-                key={item.data.href}
-                href={item.data.href}
-                imgSrc={item.data.imgSrc}
-                width={item.data.width}
-                height={item.data.height}
-                title={item.data.title}
-                countLabel={item.data.countLabel}
-                tag={item.data.tag}
-                priority={idx === 0}
-              />
-            ) : (
-              <PhotoSimpleCard
-                key={item.data.src}
-                imgSrc={item.data.src}
-                width={item.data.width}
-                height={item.data.height}
-                title={item.data.title}
-                onClick={openLightbox}
-                priority={idx < 3}
-              />
-            )
-          )}
+      <section id="koleksi" className="py-5 sm:py-7 px-3 sm:px-6 md:px-10 max-w-[1600px] mx-auto space-y-3">
+        {/* SEMUA ALBUM DI ATAS (SEJAJAR 3 KOLOM) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {ALBUMS.map((album, idx) => (
+            <PhotoLinkCard
+              key={album.href}
+              href={album.href}
+              imgSrc={album.imgSrc}
+              width={album.width}
+              height={album.height}
+              title={album.title}
+              countLabel={album.countLabel}
+              tag={album.tag}
+              priority={idx === 0}
+            />
+          ))}
+        </div>
+
+        {/* MASONRY 3 KOLOM ADAPTIF DENGAN GARIS BAWAH RATA */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-stretch">
+          {HOME_COLUMNS.map((col, colIdx) => (
+            <div key={colIdx} className="flex flex-col gap-3">
+              {col.map((photo, itemIdx) => (
+                <PhotoSimpleCard
+                  key={photo.src}
+                  imgSrc={photo.src}
+                  width={photo.width}
+                  height={photo.height}
+                  title={photo.title}
+                  onClick={openLightbox}
+                  priority={itemIdx === 0}
+                  fillColumn={itemIdx === col.length - 1}
+                />
+              ))}
+            </div>
+          ))}
         </div>
       </section>
 
