@@ -58,41 +58,30 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* TENGAH / KANAN: MENU DESKTOP */}
-          <div className="hidden md:flex items-center gap-7 lg:gap-8">
-            <nav className="flex items-center gap-6 lg:gap-7 text-[14px] font-medium text-white/75">
-              {navLinks.map((item) => {
-                const active = pathname === item.href;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`transition-colors whitespace-nowrap ${
-                      active ? "text-white font-semibold" : "hover:text-white"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-              <button
-                type="button"
-                onClick={() => setIsOpen(true)}
-                className="hover:text-white transition-colors cursor-pointer whitespace-nowrap"
-              >
-                Tentang
-              </button>
-            </nav>
-
-            <a
-              href="https://www.instagram.com/nastepca.24"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-[#0063dc] hover:bg-[#0052b8] text-white text-[13px] font-semibold px-3.5 h-[34px] rounded-[3px] transition-colors shrink-0"
+          {/* KANAN: MENU DESKTOP */}
+          <nav className="hidden md:flex items-center gap-6 lg:gap-7 text-[14px] font-medium text-white/75">
+            {navLinks.map((item) => {
+              const active = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`transition-colors whitespace-nowrap ${
+                    active ? "text-white font-semibold" : "hover:text-white"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+            <button
+              type="button"
+              onClick={() => setIsOpen(true)}
+              className="hover:text-white transition-colors cursor-pointer whitespace-nowrap"
             >
-              @nastepca.24
-            </a>
-          </div>
+              Tentang
+            </button>
+          </nav>
 
           {/* TOMBOL HAMBURGER MOBILE */}
           <button
