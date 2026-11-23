@@ -11,6 +11,14 @@ import { Lightbox } from "../components/Lightbox";
 import { useReveal } from "../components/useReveal";
 import { ALBUMS, HOME_PHOTOS } from "../data/photos";
 
+const GIMMICK_MESSAGES = [
+  "Bro seriusan nyari? Kan udah dibilang ini gak fungsi 😭",
+  "Hasil ditemukan: 0 (soalnya search bar ini cuma pajangan 💀)",
+  "Masih nyoba juga? Scroll aja ke bawah bang, gak jauh kok 🙏",
+  "Error 404: Niat bikin fitur search belum ketemu 🚧",
+  "Udah dawg, nyerah aja. Klik Random, Ngaji, atau Show di bawah tuh 👇",
+];
+
 // Distribusi 3 kolom yang seimbang tinggi alaminya (campuran portrait & landscape)
 const HOME_COLUMNS = [
   [HOME_PHOTOS[0], HOME_PHOTOS[2], HOME_PHOTOS[3], HOME_PHOTOS[9]],
@@ -20,6 +28,42 @@ const HOME_COLUMNS = [
 
 export default function Home() {
   const [lbIndex, setLbIndex] = useState(null);
+
+  // State gimmick search bar di Hero
+  const [searchText, setSearchText] = useState("");
+  const [searchGimmick, setSearchGimmick] = useState("");
+  const [searchAttempts, setSearchAttempts] = useState(0);
+  const [isShaking, setIsShaking] = useState(false);
+
+  const triggerShake = () => {
+    setIsShaking(false);
+    setTimeout(() => setIsShaking(true), 10);
+    setTimeout(() => setIsShaking(false), 400);
+  };
+
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSearchText(val);
+    if (val.trim().length === 0) {
+      setSearchGimmick("");
+    } else if (val.trim().length === 1 && !searchGimmick) {
+      setSearchGimmick("Eh beneran diketik... ini gak fungsi loh dawg 😭");
+    } else if (val.trim().length >= 5 && searchAttempts === 0) {
+      setSearchGimmick(`Nyari "${val.trim()}"? Percuma bro, ini cuma hiasan 💀`);
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    triggerShake();
+    if (!searchText.trim()) {
+      setSearchGimmick("Kosong aja udah gak fungsi, apalagi diisi 😭");
+      return;
+    }
+    const nextMsg = GIMMICK_MESSAGES[searchAttempts % GIMMICK_MESSAGES.length];
+    setSearchGimmick(nextMsg);
+    setSearchAttempts((prev) => prev + 1);
+  };
 
   const openLightbox = (imgSrc) => {
     const idx = HOME_PHOTOS.findIndex((p) => p.src === imgSrc);
@@ -34,7 +78,7 @@ export default function Home() {
       <Navbar />
 
       {/* COVER HERO */}
-      <section className="relative w-full min-h-[340px] h-[48vh] sm:h-[54vh] md:h-[60vh] flex flex-col justify-center items-center px-4 sm:px-6 overflow-hidden bg-[#212124]">
+      <section className="relative w-full min-h-[380px] h-[54vh] sm:h-[58vh] md:h-[64vh] flex flex-col justify-center items-center px-4 sm:px-6 overflow-hidden bg-[#212124]">
         <Image
           src="/koleksi/IMG_9807.JPG"
           alt="Sampul Galeria Nastepca '24"
@@ -49,14 +93,70 @@ export default function Home() {
           <h1 className="text-3xl sm:text-5xl md:text-[52px] font-bold text-white tracking-tight leading-[1.1] mb-3 sm:mb-4">
             Temukan kenanganmu.
           </h1>
-          <p className="text-sm sm:text-lg text-white/90 font-normal max-w-xl mx-auto leading-relaxed mb-6 sm:mb-7">
+          <p className="text-sm sm:text-base md:text-lg text-white/90 font-normal max-w-xl mx-auto leading-relaxed mb-5 sm:mb-6">
             Arsip dokumentasi kebersamaan Nastepca &apos;24 &mdash; dari momen santai, ngaji bulanan, hingga panggung Nihai Show.
           </p>
+
+          {/* SEARCH BAR DI ATAS TOMBOL JELAJAHI PHOTOSTREAM */}
+          <div className="w-full max-w-xl mx-auto mb-4 sm:mb-5">
+            <form
+              onSubmit={handleSearchSubmit}
+              className={`flex items-center bg-white/95 focus-within:bg-white rounded-[3px] p-1 pl-3.5 shadow-lg transition-all ${
+                isShaking ? "animate-shake ring-2 ring-[#0063dc]" : ""
+              }`}
+            >
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 text-[#666] shrink-0 mr-2.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <input
+                type="text"
+                value={searchText}
+                onChange={handleSearchChange}
+                placeholder="Cari foto, momen, atau kenangan..."
+                className="w-full py-2 text-sm text-[#212124] placeholder-[#666] bg-transparent outline-none"
+              />
+              {searchText && (
+                <button
+                  type="button"
+                  aria-label="Hapus teks"
+                  onClick={() => {
+                    setSearchText("");
+                    setSearchGimmick("Nah gitu dong, hapus aja percuma soalnya 😌");
+                  }}
+                  className="text-[#767676] hover:text-[#212124] px-2 py-1 text-base leading-none cursor-pointer"
+                >
+                  &times;
+                </button>
+              )}
+              <button
+                type="submit"
+                className="bg-[#0063dc] hover:bg-[#0052b8] active:scale-95 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-[2px] transition-all shrink-0 cursor-pointer"
+              >
+                Cari
+              </button>
+            </form>
+
+            {searchGimmick && (
+              <div className="mt-2 inline-flex items-center gap-2 bg-[#212124]/90 backdrop-blur-xs border border-white/15 text-amber-300 text-xs sm:text-sm px-3.5 py-1.5 rounded-[3px] text-left max-w-full shadow-lg">
+                <span>{searchGimmick}</span>
+              </div>
+            )}
+          </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a
               href="#koleksi"
-              className="bg-white hover:bg-[#f3f5f6] text-[#212124] font-semibold text-sm sm:text-base px-6 py-2.5 sm:py-3 rounded-[3px] shadow-md transition-all active:scale-[0.98]"
+              className="bg-white hover:bg-[#f3f5f6] text-[#212124] font-semibold text-sm sm:text-base px-6 py-2.5 rounded-[3px] shadow-md transition-all active:scale-[0.98]"
             >
               Jelajahi Photostream
             </a>

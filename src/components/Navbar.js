@@ -4,66 +4,21 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
-const GIMMICK_MESSAGES = [
-  "Bro seriusan nyari? Kan udah dibilang ini gak fungsi 😭",
-  "Hasil ditemukan: 0 (soalnya search bar ini cuma pajangan 💀)",
-  "Masih nyoba juga? Scroll aja ke bawah bang, gak jauh kok 🙏",
-  "Error 404: Niat bikin fitur search belum ketemu 🚧",
-  "Udah dawg, nyerah aja. Klik Random, Ngaji, atau Show di bawah tuh 👇",
-];
-
 export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // State gimmick search bar
-  const [searchText, setSearchText] = useState("");
-  const [searchGimmick, setSearchGimmick] = useState("");
-  const [searchAttempts, setSearchAttempts] = useState(0);
-  const [isShaking, setIsShaking] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
         setIsOpen(false);
         setIsMobileMenuOpen(false);
-        setSearchGimmick("");
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
-
-  const triggerShake = () => {
-    setIsShaking(false);
-    setTimeout(() => setIsShaking(true), 10);
-    setTimeout(() => setIsShaking(false), 400);
-  };
-
-  const handleSearchChange = (e) => {
-    const val = e.target.value;
-    setSearchText(val);
-    if (val.trim().length === 0) {
-      setSearchGimmick("");
-    } else if (val.trim().length === 1 && !searchGimmick) {
-      setSearchGimmick("Eh beneran diketik... ini gak fungsi loh dawg 😭");
-    } else if (val.trim().length >= 5 && searchAttempts === 0) {
-      setSearchGimmick(`Nyari "${val.trim()}"? Percuma bro, ini cuma hiasan 💀`);
-    }
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    triggerShake();
-    if (!searchText.trim()) {
-      setSearchGimmick("Kosong aja udah gak fungsi, apalagi diisi 😭");
-      return;
-    }
-    const nextMsg = GIMMICK_MESSAGES[searchAttempts % GIMMICK_MESSAGES.length];
-    setSearchGimmick(nextMsg);
-    setSearchAttempts((prev) => prev + 1);
-  };
 
   const navLinks = [
     { href: "/", label: "Beranda" },
@@ -74,38 +29,38 @@ export function Navbar() {
 
   return (
     <>
-      {/* GLOBAL DARK HEADER */}
+      {/* GLOBAL DARK HEADER - BERSIH & LEGA */}
       <header className="sticky top-0 z-50 w-full bg-[#212124]/95 backdrop-blur-md text-white border-b border-white/10">
-        <div className="flex items-center justify-between h-14 px-4 sm:px-6 md:px-10 max-w-[1600px] mx-auto gap-6">
-          {/* KIRI: LOGO SEDERHANA GALERIA + MENU */}
-          <div className="flex items-center gap-8 lg:gap-10 min-w-0">
-            <Link
-              href="/"
-              className="flex items-center gap-2 shrink-0 text-white hover:opacity-90 transition-opacity focus:outline-none"
-              aria-label="Galeria Beranda"
+        <div className="flex items-center justify-between h-14 px-4 sm:px-6 md:px-10 max-w-[1600px] mx-auto gap-4">
+          {/* KIRI: LOGO SEDERHANA GALERIA */}
+          <Link
+            href="/"
+            className="flex items-center gap-2 shrink-0 text-white hover:opacity-90 transition-opacity focus:outline-none"
+            aria-label="Galeria Beranda"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
-                <circle cx="12" cy="13" r="3" />
-              </svg>
-              <span className="text-[19px] font-bold tracking-tight leading-none">
-                Galeria
-              </span>
-            </Link>
+              <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+              <circle cx="12" cy="13" r="3" />
+            </svg>
+            <span className="text-[19px] font-bold tracking-tight leading-none">
+              Galeria
+            </span>
+          </Link>
 
-            {/* MENU DESKTOP */}
-            <nav className="hidden md:flex items-center gap-6 lg:gap-7 text-[14px] font-medium text-white/75">
+          {/* TENGAH / KANAN: MENU DESKTOP */}
+          <div className="hidden md:flex items-center gap-7 lg:gap-8">
+            <nav className="flex items-center gap-6 lg:gap-7 text-[14px] font-medium text-white/75">
               {navLinks.map((item) => {
                 const active = pathname === item.href;
                 return (
@@ -128,129 +83,45 @@ export function Navbar() {
                 Tentang
               </button>
             </nav>
-          </div>
-
-          {/* KANAN: SEARCH BAR + TOMBOL IG / HAMBURGER */}
-          <div className="flex items-center gap-3.5 shrink-0">
-            <div className="relative hidden sm:block w-52 md:w-60 lg:w-72">
-              <form
-                onSubmit={handleSearchSubmit}
-                className={`flex items-center bg-white/90 focus-within:bg-white rounded-[3px] px-2.5 h-[34px] transition-all ${
-                  isShaking ? "animate-shake ring-2 ring-[#0063dc]" : ""
-                }`}
-              >
-                <svg
-                  className="w-4 h-4 text-[#555] shrink-0 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2.2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-                <input
-                  type="text"
-                  value={searchText}
-                  onChange={handleSearchChange}
-                  placeholder="Cari foto atau momen..."
-                  className="w-full text-[13px] text-[#212124] placeholder-[#666] bg-transparent outline-none"
-                />
-                {searchText && (
-                  <button
-                    type="button"
-                    aria-label="Hapus teks"
-                    onClick={() => {
-                      setSearchText("");
-                      setSearchGimmick("Nah gitu dong, hapus aja percuma soalnya 😌");
-                    }}
-                    className="text-[#767676] hover:text-[#212124] px-1 text-base leading-none cursor-pointer"
-                  >
-                    &times;
-                  </button>
-                )}
-              </form>
-
-              {/* POPOVER GIMMICK SEARCH */}
-              {searchGimmick && (
-                <div className="absolute right-0 top-[42px] w-72 sm:w-80 bg-[#212124] border border-white/15 text-white/95 text-xs px-3.5 py-2.5 rounded-[4px] shadow-2xl z-50 flex items-start justify-between gap-2">
-                  <span className="leading-relaxed">{searchGimmick}</span>
-                  <button
-                    type="button"
-                    aria-label="Tutup pesan"
-                    onClick={() => setSearchGimmick("")}
-                    className="text-white/50 hover:text-white text-sm leading-none shrink-0 cursor-pointer"
-                  >
-                    &times;
-                  </button>
-                </div>
-              )}
-            </div>
 
             <a
               href="https://www.instagram.com/nastepca.24"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:inline-flex items-center gap-1.5 bg-[#0063dc] hover:bg-[#0052b8] text-white text-[13px] font-semibold px-3.5 h-[34px] rounded-[3px] transition-colors shrink-0"
+              className="inline-flex items-center gap-1.5 bg-[#0063dc] hover:bg-[#0052b8] text-white text-[13px] font-semibold px-3.5 h-[34px] rounded-[3px] transition-colors shrink-0"
             >
               @nastepca.24
             </a>
-
-            {/* TOMBOL HAMBURGER MOBILE */}
-            <button
-              type="button"
-              aria-label="Buka menu navigasi"
-              className="flex md:hidden items-center justify-center w-9 h-9 rounded-[3px] text-white/90 hover:bg-white/10 active:bg-white/15 transition-colors focus:outline-none cursor-pointer"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
           </div>
+
+          {/* TOMBOL HAMBURGER MOBILE */}
+          <button
+            type="button"
+            aria-label="Buka menu navigasi"
+            className="flex md:hidden items-center justify-center w-9 h-9 rounded-[3px] text-white/90 hover:bg-white/10 active:bg-white/15 transition-colors focus:outline-none cursor-pointer"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              {isMobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
         </div>
 
         {/* DROPDOWN MENU HP */}
         {isMobileMenuOpen && (
           <div className="md:hidden bg-[#1a1a1d] border-t border-white/10 px-4 py-3 flex flex-col gap-1 text-sm font-medium text-white/85 shadow-xl">
-            <form
-              onSubmit={handleSearchSubmit}
-              className={`sm:hidden flex items-center bg-white/90 focus-within:bg-white rounded-[3px] px-2.5 h-[36px] mb-2 ${
-                isShaking ? "animate-shake ring-2 ring-[#0063dc]" : ""
-              }`}
-            >
-              <svg className="w-4 h-4 text-[#555] shrink-0 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              <input
-                type="text"
-                value={searchText}
-                onChange={handleSearchChange}
-                placeholder="Cari foto atau momen..."
-                className="w-full text-[13px] text-[#212124] placeholder-[#666] bg-transparent outline-none"
-              />
-            </form>
-            {searchGimmick && (
-              <div className="sm:hidden mb-2 bg-white/10 text-white/90 text-xs px-3 py-2 rounded-[3px]">
-                {searchGimmick}
-              </div>
-            )}
-
             {navLinks.map((item) => {
               const active = pathname === item.href;
               return (
