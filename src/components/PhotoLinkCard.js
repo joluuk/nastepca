@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function PhotoLinkCard({ href, imgSrc, title, height, priority = false }) {
   return (
-    <Link href={href} className={`reveal-element opacity-0 translate-y-16 transition-all duration-700 ease-out group relative block ${height} rounded-md overflow-hidden cursor-zoom-in bg-gray-200`}>
+    <Link href={href} className={`reveal-element opacity-0 translate-y-16 transition-all duration-500 ease-out group relative block ${height} rounded-md overflow-hidden cursor-zoom-in bg-gray-200`}>
       <Image
         src={imgSrc}
         alt={title}

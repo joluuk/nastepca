@@ -19,7 +19,7 @@ export default function NgajiBulananPage() {
             Nihai Show
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-200 font-medium max-w-xl mx-auto">
-            Dokumentasi momen kajian, kebersamaan, dan pembelajaran rutin kami.
+            Rekaman proyek akhir kami, dari awal sampai hasil jadi.
           </p>
         </div>
       </section>

@@ -55,7 +55,7 @@ export default function FotoRandomPage() {
             Foto-Foto Random
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-gray-200 font-medium max-w-xl mx-auto">
-            Dokumentasi momen kajian, kebersamaan, dan pembelajaran rutin kami.
+            Kumpulan momen santai dan kebersamaan tanpa rencana.
           </p>
         </div>
       </section>

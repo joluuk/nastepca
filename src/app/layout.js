@@ -8,7 +8,14 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata = {
   title: "Galeria",
-  description: "Website Galeri Foto",
+  description: "Galeri foto kenangan Nastepca '24 — momen kebersamaan, ngaji bulanan, dan proyek akhir.",
+  openGraph: {
+    title: "Galeria",
+    description: "Galeri foto kenangan Nastepca '24.",
+    images: ["/koleksi/IMG_9807.JPG"],
+    type: "website",
+    locale: "id_ID",
+  },
 };
 
 export const viewport = {
